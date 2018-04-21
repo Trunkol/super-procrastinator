@@ -27,10 +27,19 @@ func topStories() []int {
 		log.Fatal(err)
 	}
 
-	tmp := strings.Split(string(body), ",")
+	return convertForInt(body, 15)
+}
+
+/*
+	convertForInt take a chunk of string like this [12, 34, 12, 45]
+	and return the size of itens
+*/
+func convertForInt(bodyRequest []byte, size int) []int {
+
+	tmp := strings.Split(string(bodyRequest), ",")
 	var topFifteen []int
 
-	for _, x := range tmp[:15] {
+	for _, x := range tmp[:size] {
 		x = strings.Trim(x, "[ ")
 		x = strings.TrimSpace(x)
 
