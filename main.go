@@ -3,5 +3,9 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println((topStories()))
+	topStories := topStories()
+
+	for _, i := range topStories {
+		fmt.Println(getStorie(i))
+	}
 }
