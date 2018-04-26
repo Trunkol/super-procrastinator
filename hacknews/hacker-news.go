@@ -1,4 +1,4 @@
-package main
+package hacknews
 
 import (
 	"encoding/json"
@@ -12,7 +12,7 @@ const (
 	urlBase = "https://hacker-news.firebaseio.com/v0/"
 )
 
-func getStorie(id int) interface{} {
+func GetStorie(id int) interface{} {
 	r, err := http.Get(urlBase + "item/" + strconv.Itoa(id) + ".json?print=pretty")
 
 	if err != nil {
@@ -34,10 +34,9 @@ func getStorie(id int) interface{} {
 	}
 
 	return dat
-	//https://hacker-news.firebaseio.com/v0/item/16892211.json?print=pretty
 }
 
-func topStories() []int {
+func TopStories() []int {
 	resp, err := http.Get(urlBase + "topstories.json?print=pretty")
 
 	if err != nil {

@@ -1,11 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"super-procrastinator/medium"
+)
 
 func main() {
-	topStories := topStories()
-
-	for _, i := range topStories {
-		fmt.Println(getStorie(i))
-	}
+	medium.Stories()
 }
