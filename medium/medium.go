@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-type contentResponse struct {
+type feedReturn struct {
 	Payload struct {
 		Collection struct {
 			Slug string `json:"slug"`
@@ -20,19 +20,36 @@ type contentResponse struct {
 	}
 }
 
+type storie struct {
+	title  string
+	url    string
+	author string
+	date   int
+}
+
 //Stories is a func
-func Stories() {
+func Stories() (stories []storie) {
 	feeds := []string{"message", "the-launchism"}
 
 	for _, content := range feeds {
-		dat := contentResponse{}
+		dat := feedReturn{}
 
 		err := json.Unmarshal(getFeed(content), &dat)
 		if err != nil {
 			log.Fatal(err)
 		}
 
+		for _, tmp := range dat.Payload.Posts {
+			stories = append(stories, storie{
+				url:    "https://medium.com/" + dat.Payload.Collection.Slug + "/" + tmp.URL,
+				title:  tmp.Title,
+				author: "",
+				date:   tmp.Date,
+			})
+		}
 	}
+
+	return stories
 }
 
 func getFeed(feed string) []byte {

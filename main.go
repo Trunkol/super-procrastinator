@@ -1,11 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"super-procrastinator/hacknews"
 	"super-procrastinator/medium"
 )
 
 func main() {
-	medium.Stories()
-	hacknews.Stories()
+	fmt.Println(medium.Stories())
+	fmt.Println(hacknews.Stories())
 }

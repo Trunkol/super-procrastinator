@@ -2,28 +2,45 @@ package hacknews
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
+	"sync"
 )
 
 const (
 	urlBase = "https://hacker-news.firebaseio.com/v0/"
 )
 
+type article struct {
+	Title  string `json:"title"`
+	URL    string `json:"url"`
+	Date   int    `json:"time"`
+	Author string `json:"by"`
+}
+
 //Stories is the main function to catch stories
-func Stories() {
+func Stories() []article {
 	topID := topStories(15)
 
+	var stories []article
+	var wg sync.WaitGroup
+
 	for _, x := range topID {
-		fmt.Println(getStorie(x))
+		wg.Add(1)
+		go func(i int) {
+			stories = append(stories, getStorie(i))
+			wg.Done()
+		}(x)
 	}
+	wg.Wait()
+
+	return stories
 }
 
 //getStorie is responsible for take the content of a storie
-func getStorie(id int) interface{} {
+func getStorie(id int) article {
 	r, err := http.Get(urlBase + "item/" + strconv.Itoa(id) + ".json?print=pretty")
 
 	if err != nil {
@@ -36,7 +53,7 @@ func getStorie(id int) interface{} {
 		log.Fatal(err)
 	}
 
-	var dat map[string]interface{}
+	var dat article
 
 	err = json.Unmarshal(body, &dat)
 
