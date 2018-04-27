@@ -2,41 +2,46 @@ package medium
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
+type contentResponse struct {
+	Payload struct {
+		Collection struct {
+			Slug string `json:"slug"`
+		}
+		Posts []struct {
+			Title string `json:"title"`
+			Date  int    `json:"updatedAt"`
+			URL   string `json:"uniqueSlug"`
+		}
+	}
+}
+
 //Stories is a func
 func Stories() {
-	feeds := []string{"message", "the-story"}
+	feeds := []string{"message", "the-launchism"}
 
 	for _, content := range feeds {
-		body := getFeed(content)
+		dat := contentResponse{}
 
-		var dat map[string]interface{}
-
-		err := json.Unmarshal(body, &dat)
-
+		err := json.Unmarshal(getFeed(content), &dat)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		fmt.Println(dat)
 	}
-
 }
 
 func getFeed(feed string) []byte {
 	req, err := http.Get("https://medium.com/" + feed + "/latest?format=json")
-
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	body, err := ioutil.ReadAll(req.Body)
-
 	if err != nil {
 		log.Fatal(err)
 	}
