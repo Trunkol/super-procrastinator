@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"super-procrastinator/models"
 )
 
 type feedReturn struct {
@@ -20,15 +21,8 @@ type feedReturn struct {
 	}
 }
 
-type storie struct {
-	title  string
-	url    string
-	author string
-	date   int
-}
-
 //Stories is a func
-func Stories() (stories []storie) {
+func Stories() (stories []models.Article) {
 	feeds := []string{"message", "the-launchism"}
 
 	for _, content := range feeds {
@@ -39,12 +33,12 @@ func Stories() (stories []storie) {
 			log.Fatal(err)
 		}
 
-		for _, tmp := range dat.Payload.Posts {
-			stories = append(stories, storie{
-				url:    "https://medium.com/" + dat.Payload.Collection.Slug + "/" + tmp.URL,
-				title:  tmp.Title,
-				author: "",
-				date:   tmp.Date,
+		for _, post := range dat.Payload.Posts {
+			stories = append(stories, models.Article{
+				URL:    "https://medium.com/" + dat.Payload.Collection.Slug + "/" + post.URL,
+				Title:  post.Title,
+				Author: "",
+				Date:   post.Date,
 			})
 		}
 	}

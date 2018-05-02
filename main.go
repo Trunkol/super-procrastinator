@@ -2,11 +2,22 @@ package main
 
 import (
 	"fmt"
-	"super-procrastinator/hacknews"
-	"super-procrastinator/medium"
+	"super-procrastinator/consumer"
 )
 
 func main() {
-	fmt.Println(medium.Stories())
-	fmt.Println(hacknews.Stories())
+
+	for _, v := range consumer.Stories() {
+		fmt.Println(v.URL)
+	}
+
+	/*
+		tmpl := template.Must(template.ParseFiles("templates/layout.html"))
+
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			tmpl.Execute(w, data)
+		})
+
+		http.ListenAndServe(":8000", nil)
+	*/
 }

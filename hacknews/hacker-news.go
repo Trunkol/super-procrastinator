@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"super-procrastinator/models"
 	"sync"
 )
 
@@ -13,18 +14,11 @@ const (
 	urlBase = "https://hacker-news.firebaseio.com/v0/"
 )
 
-type article struct {
-	Title  string `json:"title"`
-	URL    string `json:"url"`
-	Date   int    `json:"time"`
-	Author string `json:"by"`
-}
-
 //Stories is the main function to catch stories
-func Stories() []article {
+func Stories() []models.Article {
 	topID := topStories(15)
 
-	var stories []article
+	var stories []models.Article
 	var wg sync.WaitGroup
 
 	for _, x := range topID {
@@ -40,7 +34,7 @@ func Stories() []article {
 }
 
 //getStorie is responsible for take the content of a storie
-func getStorie(id int) article {
+func getStorie(id int) models.Article {
 	r, err := http.Get(urlBase + "item/" + strconv.Itoa(id) + ".json?print=pretty")
 
 	if err != nil {
@@ -53,7 +47,7 @@ func getStorie(id int) article {
 		log.Fatal(err)
 	}
 
-	var dat article
+	var dat models.Article
 
 	err = json.Unmarshal(body, &dat)
 
