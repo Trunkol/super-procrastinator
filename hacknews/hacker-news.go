@@ -10,6 +10,13 @@ import (
 	"sync"
 )
 
+type article struct {
+	Title  string `json:"title"`
+	URL    string `json:"url"`
+	Date   int    `json:"time"`
+	Author string `json:"by"`
+}
+
 const (
 	urlBase = "https://hacker-news.firebaseio.com/v0/"
 )
@@ -24,7 +31,7 @@ func Stories() []models.Article {
 	for _, x := range topID {
 		wg.Add(1)
 		go func(i int) {
-			stories = append(stories, getStorie(i))
+			stories = append(stories, models.Article(getStorie(i)))
 			wg.Done()
 		}(x)
 	}
@@ -34,7 +41,7 @@ func Stories() []models.Article {
 }
 
 //getStorie is responsible for take the content of a storie
-func getStorie(id int) models.Article {
+func getStorie(id int) article {
 	r, err := http.Get(urlBase + "item/" + strconv.Itoa(id) + ".json?print=pretty")
 
 	if err != nil {
@@ -47,7 +54,7 @@ func getStorie(id int) models.Article {
 		log.Fatal(err)
 	}
 
-	var dat models.Article
+	var dat article
 
 	err = json.Unmarshal(body, &dat)
 

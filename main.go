@@ -1,23 +1,17 @@
 package main
 
 import (
-	"fmt"
+	"html/template"
+	"net/http"
 	"super-procrastinator/consumer"
 )
 
 func main() {
+	tmpl := template.Must(template.ParseFiles("templates/layout.html"))
 
-	for _, v := range consumer.Stories() {
-		fmt.Println(v.URL)
-	}
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		tmpl.Execute(w, consumer.Stories())
+	})
 
-	/*
-		tmpl := template.Must(template.ParseFiles("templates/layout.html"))
-
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			tmpl.Execute(w, data)
-		})
-
-		http.ListenAndServe(":8000", nil)
-	*/
+	http.ListenAndServe(":8000", nil)
 }

@@ -25,32 +25,22 @@
                 </div>
             </div>
         </div>
-        
+       
         <div class="row">
             <div class="col-md-12">
-                <h3> Heading
-                <small class="text-muted">with muted text</small>
-                </h3>
-                <p class="lead">Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                <h1>Articles</h1>
+                    {{ range $key, $value := . }}
+                    <ul>
+                        <li>
+                            <h3> <a href="{{ $value.URL }}" target="_blank">{{ $value.Title }}</a>
+                                <small class="text-muted">Hackernews</small>
+                            </h3>
+                            <p class="lead">Author: <i>{{ $value.Author }}</i> - {{ $value.Date }}</p>
+                        </li>
+                    </ul>
+                    {{ end }}
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <h1>{{.PageTitle}}</h1>
-                <ul>
-                    {{range .Todos}} {{if .Done}}
-                    <li class="done">{{.Title}}</li>
-                    {{else}}
-                    <li>{{.Title}}</li>
-                    {{end}} {{end}}
-                </ul>
-            </div>
-        </div>
-
-        
-
-                
+        </div><br>
     </div>
 </body>
 </html>
