@@ -23,7 +23,7 @@ const (
 
 //Stories is the main function to catch stories
 func Stories() []models.Article {
-	topID := topStories(15)
+	topID := topStories(30)
 
 	var stories []models.Article
 	var wg sync.WaitGroup
