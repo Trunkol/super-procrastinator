@@ -5,4 +5,5 @@ type Article struct {
 	URL    string
 	Date   int
 	Author string
+	Source string
 }

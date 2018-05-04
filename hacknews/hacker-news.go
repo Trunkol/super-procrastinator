@@ -15,6 +15,7 @@ type article struct {
 	URL    string `json:"url"`
 	Date   int    `json:"time"`
 	Author string `json:"by"`
+	Source string
 }
 
 const (
@@ -57,6 +58,7 @@ func getStorie(id int) article {
 	var dat article
 
 	err = json.Unmarshal(body, &dat)
+	dat.Source = "Hackernews"
 
 	if err != nil {
 		log.Fatal(err)

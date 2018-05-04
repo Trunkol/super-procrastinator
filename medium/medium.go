@@ -39,6 +39,7 @@ func Stories() (stories []models.Article) {
 				Title:  post.Title,
 				Author: "",
 				Date:   post.Date,
+				Source: "Medium",
 			})
 		}
 	}
