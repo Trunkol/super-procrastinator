@@ -1,5 +1,6 @@
 package models
 
+//Article struct join the main info from the articles
 type Article struct {
 	Title  string
 	URL    string
