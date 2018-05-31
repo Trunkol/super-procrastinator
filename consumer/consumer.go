@@ -4,6 +4,7 @@ import (
 	"super-procrastinator/hacknews"
 	"super-procrastinator/medium"
 	"super-procrastinator/models"
+	"super-procrastinator/reddit"
 )
 
 //Stories is responsible for join stories for diferents packages and return to main
@@ -15,6 +16,10 @@ func Stories() []models.Article {
 	}
 
 	for _, v := range medium.Stories() {
+		stories = append(stories, v)
+	}
+
+	for _, v := range reddit.Stories() {
 		stories = append(stories, v)
 	}
 

@@ -2,23 +2,28 @@ package reddit
 
 import (
 	"encoding/xml"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"super-procrastinator/models"
 )
 
 type result struct {
 	Articles []tmpArticle `xml:"entry"`
 }
 
+type link struct {
+	Link string `xml:"href,attr"`
+}
+
 type tmpArticle struct {
 	Author  string `xml:"author>name"`
 	Title   string `xml:"title"`
 	Updated string `xml:"updated"`
+	Link    link   `xml:"link"`
 }
 
-func TopStories() {
+func Stories() []models.Article {
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET", "https://www.reddit.com/r/inthenews/.rss", nil)
@@ -41,8 +46,20 @@ func TopStories() {
 
 	var r result
 	err = xml.Unmarshal(body, &r)
-	for _, i := range r.Articles {
-		fmt.Println(i.Title)
+
+	return joinArticles(r.Articles)
+}
+
+func joinArticles(arts []tmpArticle) (articles []models.Article) {
+	for _, x := range arts {
+		articles = append(articles, models.Article{
+			URL:    x.Link.Link,
+			Title:  x.Title,
+			Author: x.Author[3:],
+			Date:   123,
+			Source: "Reddit",
+		})
 	}
 
+	return articles
 }

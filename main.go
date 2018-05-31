@@ -1,15 +1,6 @@
 package main
 
 import (
-	"super-procrastinator/reddit"
-)
-
-func main() {
-	reddit.TopStories()
-}
-
-/*
-import (
 	"html/template"
 	"net/http"
 	"super-procrastinator/consumer"
@@ -24,4 +15,3 @@ func main() {
 
 	http.ListenAndServe(":8000", nil)
 }
-*/
