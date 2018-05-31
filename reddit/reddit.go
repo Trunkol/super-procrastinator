@@ -23,7 +23,8 @@ type tmpArticle struct {
 	Link    link   `xml:"link"`
 }
 
-func Stories() []models.Article {
+//Stories is...
+func Stories(ch chan []models.Article) {
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET", "https://www.reddit.com/r/inthenews/.rss", nil)
@@ -47,7 +48,7 @@ func Stories() []models.Article {
 	var r result
 	err = xml.Unmarshal(body, &r)
 
-	return joinArticles(r.Articles)
+	ch <- joinArticles(r.Articles)
 }
 
 func joinArticles(arts []tmpArticle) (articles []models.Article) {

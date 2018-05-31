@@ -11,16 +11,14 @@ import (
 func Stories() []models.Article {
 	var stories []models.Article
 
-	for _, v := range hacknews.Stories() {
-		stories = append(stories, v)
-	}
+	articles := make(chan []models.Article)
 
-	for _, v := range medium.Stories() {
-		stories = append(stories, v)
-	}
+	go reddit.Stories(articles)
+	go hacknews.Stories(articles)
+	go medium.Stories(articles)
 
-	for _, v := range reddit.Stories() {
-		stories = append(stories, v)
+	for _, x := range <- articles {
+		stories = append(stories, x)
 	}
 
 	return stories

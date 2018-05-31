@@ -22,8 +22,9 @@ type feedReturn struct {
 }
 
 //Stories is a func
-func Stories() (stories []models.Article) {
+func Stories(ch chan []models.Article) {
 	feeds := []string{"message", "the-launchism"}
+	var stories []models.Article
 
 	for _, content := range feeds {
 		dat := feedReturn{}
@@ -44,7 +45,7 @@ func Stories() (stories []models.Article) {
 		}
 	}
 
-	return stories
+	ch <- stories
 }
 
 func getFeed(feed string) []byte {
