@@ -32,7 +32,7 @@ func Stories() []models.Article {
 	for _, x := range topID {
 		wg.Add(1)
 		go func(i int) {
-			stories = append(stories, models.Article(getStorie(i)))
+			stories = append(stories, models.Article(getStory(i)))
 			wg.Done()
 		}(x)
 	}
@@ -42,7 +42,7 @@ func Stories() []models.Article {
 }
 
 //getStorie is responsible for take the content of a storie
-func getStorie(id int) article {
+func getStory(id int) article {
 	r, err := http.Get(urlBase + "item/" + strconv.Itoa(id) + ".json?print=pretty")
 
 	if err != nil {
