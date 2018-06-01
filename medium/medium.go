@@ -22,7 +22,7 @@ type feedReturn struct {
 }
 
 //Stories is a func
-func Stories(ch chan []models.Article) {
+func Stories() []models.Article {
 	feeds := []string{"message", "the-launchism"}
 	var stories []models.Article
 
@@ -45,7 +45,7 @@ func Stories(ch chan []models.Article) {
 		}
 	}
 
-	ch <- stories
+	return stories
 }
 
 func getFeed(feed string) []byte {

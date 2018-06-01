@@ -23,7 +23,7 @@ const (
 )
 
 //Stories is the main function to catch stories
-func Stories(ch chan []models.Article) {
+func Stories() []models.Article {
 	topID := topStories(30)
 
 	var stories []models.Article
@@ -38,7 +38,7 @@ func Stories(ch chan []models.Article) {
 	}
 	wg.Wait()
 
-	ch <- stories
+	return stories
 }
 
 //getStorie is responsible for take the content of a storie

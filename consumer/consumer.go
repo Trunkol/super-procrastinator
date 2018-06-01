@@ -8,16 +8,17 @@ import (
 )
 
 //Stories is responsible for join stories for diferents packages and return to main
-func Stories() []models.Article {
-	var stories []models.Article
+func Stories() (stories []models.Article) {
 
-	articles := make(chan []models.Article)
+	for _, x := range reddit.Stories() {
+		stories = append(stories, x)
+	}
 
-	go reddit.Stories(articles)
-	go hacknews.Stories(articles)
-	go medium.Stories(articles)
+	for _, x := range hacknews.Stories() {
+		stories = append(stories, x)
+	}
 
-	for _, x := range <- articles {
+	for _, x := range medium.Stories() {
 		stories = append(stories, x)
 	}
 
